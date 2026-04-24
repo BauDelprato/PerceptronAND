@@ -173,7 +173,7 @@ public class Controlador implements ActionListener {
             boolean bandera = false;
 
             if ((((Entrada1.compareTo("1")) != 0) && ((Entrada1.compareTo("-1")) != 0)) || (((Entrada2.compareTo("1")) != 0) && ((Entrada2.compareTo("-1")) != 0))) {
-                showMessageDialog(null, "ERROR. Solamente se haceptan valores 1 o -1");
+                showMessageDialog(null, "ERROR. Solamente se aceptan valores 1 o -1");
                 bandera = true;
             }
 

@@ -38,15 +38,26 @@ public class Controlador implements ActionListener {
     }
 
     public void iniciar() {
-
         view.setTitle("PERCEPTRÓN SIMPLE AND");
         view.setLocationRelativeTo(null);
-
     }
 
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == view.btnEntrenamiento) {
+
+            try {
+                float nuevoFactor = Float.parseFloat(view.jtfFactor.getText());
+                if (nuevoFactor <= 0) {
+                    showMessageDialog(null, "El factor debe ser mayor a 0");
+                    return;
+                } else {
+                    perceptronSimpleAND.setFactorAprendizaje(nuevoFactor);
+                }
+            } catch (Exception ex) {
+                showMessageDialog(null, "Factor inválido");
+                return;
+            }
 
             perceptronSimpleAND.Entrenamiento();
 
@@ -78,12 +89,23 @@ public class Controlador implements ActionListener {
             view.panelGrafico.removeAll();
             view.panelGrafico.add(chartPanel2, BorderLayout.CENTER);
             view.panelGrafico.validate();
-
         }
 
         if (e.getSource() == view.btnAprendizaje) {
 
             if (perceptronSimpleAND.getError() != 0f) {
+
+                try {
+                    float nuevoFactor = Float.parseFloat(view.jtfFactor.getText());
+                    if (nuevoFactor <= 0) {
+                        showMessageDialog(null, "El factor debe ser mayor a 0");
+                        return;
+                    }
+                    perceptronSimpleAND.setFactorAprendizaje(nuevoFactor);
+                } catch (Exception ex) {
+                    showMessageDialog(null, "Factor inválido");
+                    return;
+                }
 
                 perceptronSimpleAND.Aprendizaje();
 
@@ -92,12 +114,24 @@ public class Controlador implements ActionListener {
                                          Nuevo Umbral = """ + perceptronSimpleAND.getW0()
                         + "\n Nuevo Peso 1 = " + perceptronSimpleAND.getW1()
                         + "\n Nuevo Peso 2 = " + perceptronSimpleAND.getW2());
+            }
+        }
 
+        if (e.getSource() == view.btnAutoEntrenar) {
+
+            try {
+                float nuevoFactor = Float.parseFloat(view.jtfFactor.getText());
+                if (nuevoFactor <= 0) {
+                    showMessageDialog(null, "El factor debe ser mayor a 0");
+                    return;
+                }
+                perceptronSimpleAND.setFactorAprendizaje(nuevoFactor);
+            } catch (Exception ex) {
+                showMessageDialog(null, "Factor inválido");
+                return;
             }
 
-        }
-        if (e.getSource() == view.btnAutoEntrenar) {
-            int maxEpocas = 100;
+            int maxEpocas = 10000;
             int epocaActual = 0;
 
             while (perceptronSimpleAND.getFila() < 4 && epocaActual < maxEpocas) {
@@ -131,6 +165,7 @@ public class Controlador implements ActionListener {
             view.panelGrafico.add(chartPanel2, BorderLayout.CENTER);
             view.panelGrafico.validate();
         }
+
         if (e.getSource() == view.btnPrueba) {
 
             String Entrada1 = view.jtfEntrada1.getText();
@@ -146,7 +181,6 @@ public class Controlador implements ActionListener {
                 float y = perceptronSimpleAND.PruebaFuncionamiento(Integer.parseInt(Entrada1), Integer.parseInt(Entrada2));
                 view.jlbSalidaPrueba.setText("Salida Obtenida: " + Float.toString(y));
             }
-
         }
 
         if (e.getSource() == view.btnReset) {
@@ -164,7 +198,6 @@ public class Controlador implements ActionListener {
             view.jlbSalidaObtenida.setText("Salida Obtenida:");
             view.jlbSalidaPrueba.setText("Salida Obtenida:");
 
-            // Resetea el gráfico
             grafico = new Grafico();
             chartPanel = grafico.getChartPanel();
             chartPanel.setPreferredSize(new Dimension(400, 400));
@@ -172,7 +205,5 @@ public class Controlador implements ActionListener {
             view.panelGrafico.add(chartPanel, BorderLayout.CENTER);
             view.panelGrafico.validate();
         }
-
     }
-
 }
